@@ -1,19 +1,19 @@
 function oddOccurancesTracker(words) {
   const oddOccurances = words.split(" ")
   .reduce((acc, word) => {
-    if (!acc.hasOwnProperty(word.toLowerCase())) {
-      acc[word.toLowerCase()] = 1;
+    word = word.toLowerCase();
+    if (!acc.hasOwnProperty(word)) {
+      acc[word] = 1;
     } else {
-      acc[word.toLowerCase()] += 1;
+      acc[word] += 1;
     }
-
     return acc;
   }, {});
 
   let result = [];
-  Object.keys(oddOccurances).forEach((key) => {
-    if (oddOccurances[key] % 2 !== 0) {
-      result.push(key);
+  Object.keys(oddOccurances).forEach((occuredWord) => {
+    if (oddOccurances[occuredWord] % 2 !== 0) {
+      result.push(occuredWord);
     }
   });
   console.log(result.join(" "));
