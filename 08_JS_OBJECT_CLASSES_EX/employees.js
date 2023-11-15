@@ -1,5 +1,6 @@
 function solve(input){
-    const employees = input.reduce((acc, curr) => {
+    const employees = input
+    .reduce((acc, curr) => {
         acc[curr] = curr.length;
         return acc;
     }, {});
