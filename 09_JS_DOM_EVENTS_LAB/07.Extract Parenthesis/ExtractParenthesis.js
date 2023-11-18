@@ -1,3 +1,25 @@
-function extract(content) {
+// function extract(content) {
+//     const text = document.getElementById(content).textContent;
 
+//     const pattern = /\((.+?)\)/gm;
+//     let result = [];
+
+//     let match = pattern.exec(text);
+//     while (match != null) {
+//         result.push(match[1]);
+//         match = pattern.exec(text);
+//     }
+
+
+//     return result.join("; ")
+
+// }
+
+// let text = extract("content");
+
+
+function extract(content) {
+    const text = document.getElementById(content).textContent;
+    const pattern = /\(([^)]+)\)/g;
+    return text.match(pattern).join('; ');
 }
