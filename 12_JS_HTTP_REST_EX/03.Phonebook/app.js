@@ -27,8 +27,8 @@ function attachEvents() {
     }
 
     async function deleteContactInfo(event) {        
-        const id = event.currentTarget.value;
-        await fetch(APIUrl + id, {
+        const _key = event.currentTarget.value;
+        await fetch(APIUrl + _key, {
             method: "DELETE"            
         });
         await loadPhones();
