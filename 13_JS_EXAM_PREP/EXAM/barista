@@ -1,0 +1,68 @@
+function manageCafeteria(input){
+    const numOfBaristas = input.shift();
+    const baristasArray = input.slice(0, numOfBaristas);
+    const baristas = baristasArray.reduce((acc, currBarista) => {
+        const [baristaName, shift, coffeeTypes] = currBarista.split(' ');
+
+        if (!acc.hasOwnProperty(baristaName)){
+            acc[baristaName] = { shift, coffeeArray: [] };
+        }
+        acc[baristaName].coffeeArray = coffeeTypes.split(',');
+        input.shift();
+        return acc;
+    }, {});
+    
+    const commandManager = {
+        "Prepare": prepareCommand, 
+        "Change Shift": changeShiftCommand,
+        "Learn": learnCommand,
+    }
+
+    let commandLine;
+  
+    while ((commandLine = input.shift()) !== "Closed") {
+        const [commandName, ...rest] = commandLine.split(" / ");
+        commandManager[commandName](...rest);
+    }
+
+    function prepareCommand(baristaName, shift, coffeeType){
+        if (baristas[baristaName].shift === shift && baristas[baristaName].coffeeArray.includes(coffeeType)){
+            console.log(`${baristaName} has prepared a ${coffeeType} for you!`);
+        } else {
+            console.log(`${baristaName} is not available to prepare a ${coffeeType}.`);
+        }
+    }
+
+    function changeShiftCommand(baristaName, newShift) {
+        baristas[baristaName].shift = newShift;
+        console.log(`${baristaName} has updated his shift to: ${newShift}`)
+    }
+
+    function learnCommand(baristaName, newCoffeeType) {
+        if (baristas[baristaName].coffeeArray.includes(newCoffeeType)) {
+            console.log(`${baristaName} knows how to make ${newCoffeeType}.`)
+        } else {
+            baristas[baristaName].coffeeArray.push(newCoffeeType);
+            console.log(`${baristaName} has learned a new coffee type: ${newCoffeeType}.`)
+        }
+    }
+
+    let baristasIterable = Object.entries(baristas);
+    for (const [currBarista, info] of baristasIterable){
+        console.log(`Barista: ${currBarista}, Shift: ${info.shift}, Drinks: ${info.coffeeArray.join(", ")}`);
+    }
+}
+
+
+manageCafeteria([
+    '3',
+      'Alice day Espresso,Cappuccino',
+      'Bob night Latte,Mocha',
+      'Carol day Americano,Mocha',
+      'Prepare / Alice / day / Espresso',
+      'Change Shift / Bob / night',
+      'Learn / Carol / Latte',
+      'Learn / Bob / Latte',
+      'Prepare / Bob / night / Latte',
+      'Closed']
+    )
