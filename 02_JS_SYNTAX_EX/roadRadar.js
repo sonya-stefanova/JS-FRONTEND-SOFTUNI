@@ -1,35 +1,27 @@
 function roadRadar(speed, type){
-    let speedLimit;
-    let status=''
-
-    if (type=='motorway'){
-        speedLimit=130;
-    } else if(type=='interstate'){
-        speedLimit=90;
-    } else if(type=='city'){
-        speedLimit=50;
-    } else if(type='residential'){
-        speedLimit=20;
+    const SpeedLimits = {
+        motorway: 130,
+        interstate: 90, 
+        city: 50, 
+        residential: 20,
     }
 
-    if (speed<=speedLimit){
-        console.log(`Driving ${speed} km/h in a ${speedLimit} zone`);
-    } else {
-        difference=Math.abs(speedLimit-speed)
-        if (difference>40){
-            status='reckless driving';
+    const currentSpeedLimit = SpeedLimits[type];
+    const speedOverLimit = speed - currentSpeedLimit;
 
-        }else if (difference>20){
-            status='excessive speeding';
-
-        } else {
-            status = 'speeding';
-        }
-
-        console.log(`The speed is ${difference} km/h faster than the allowed speed of ${speedLimit} - ${status}`)
+    if (speedOverLimit <= 0) {
+        console.log(`Driving ${speed} km/h in a ${currentSpeedLimit} zone`);
+        return;
     }
-
-
+    
+    const speedMessage = 
+        speedOverLimit <= 20 
+            ? 'speeding'
+            : speedOverLimit <= 40 
+            ? 'excessive speeding' 
+            : 'reckless driving';
+    
+    console.log(`The speed is ${speedOverLimit} km/h faster than the allowed speed of ${currentSpeedLimit} - ${speedMessage}`);
 }
 
 roadRadar(40, 'city');
